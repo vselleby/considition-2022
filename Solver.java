@@ -20,7 +20,7 @@ public class Solver {
         solution.setRecycleRefundChoice(true);
         solution.setBagPrice(10);
         solution.setRefundAmount(1);
-        solution.setBagType(1);
+        solution.setBagType(bagtype);
         
         List<Integer> orders = new ArrayList<>();
         for (int day = 0; day < days, day++) {

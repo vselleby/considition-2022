@@ -27,7 +27,7 @@ Solver is a very simple iterator to determine how many orders should be put each
 The game layer has all the functions you need to play the game.
 
 **The Game**
-- **New Game** Gets the properties of the selected map in a *GameResponse*, such as its packages and the vehicle dimensions.
+- **New Game** Gets the properties of the selected map in a *GameResponse*, such as the behaviour of the population and company budget.
 - **Submit Game** Submits your game for validation and evaluation. If solution is valid, it returns a *SubmitResponse* with the scoring of your game.
 
 # API
