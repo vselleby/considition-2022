@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.*;
-import responses.FetchResponse;
 import responses.GameResponse;
 import responses.SubmitResponse;
 
@@ -26,9 +25,7 @@ public class GameLayer {
      * @return The game specifics
      */
     public GameResponse mapInfo(String map, String apiKey) {
-         var state = Api.mapInfo(map, apiKey);
-
-         return state;
+         return Api.mapInfo(map, apiKey);
     }
 
     /**
@@ -39,7 +36,6 @@ public class GameLayer {
      * @return The game specifics
      */
     public SubmitResponse SubmitGame(Solution solution, String mapName, String apiKey){
-        var state = Api.SubmitGame(solution, mapName, apiKey);
-        return state;
+        return Api.SubmitGame(solution, mapName, apiKey);
     }
 }

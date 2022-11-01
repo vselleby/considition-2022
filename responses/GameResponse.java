@@ -2,12 +2,12 @@ package responses;
 
 public class GameResponse {
     
-    public String mapName;
+    public int population;
     public int companyBudget;
     public String behavior;
 
-    public GameResponse(String mapName, int companyBudget, String behavior){
-        this.mapName = mapName;
+    public GameResponse(int population, int companyBudget, String behavior) {
+        this.population = population;
         this.companyBudget = companyBudget;
         this.behavior = behavior;
     }

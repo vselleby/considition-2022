@@ -1,6 +1,5 @@
 import com.google.gson.*;
 import models.*;
-import responses.FetchResponse;
 import responses.GameResponse;
 import responses.SubmitResponse;
 import java.io.BufferedReader;
@@ -9,16 +8,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.util.ArrayList;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 
 
 public class Api {
@@ -30,7 +19,7 @@ public class Api {
         gson = gsonBuilder.create();
     }
 
-    public static GameResponse MapInfo(String mapName, String apiKey) {
+    public static GameResponse mapInfo(String mapName, String apiKey) {
        try {
 
             URL url = new URL(BasePath + "/mapInfo?MapName=" + mapName);

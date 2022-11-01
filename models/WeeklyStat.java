@@ -1,6 +1,6 @@
 package models;
 
-public class WeeklyStat> {
+public class WeeklyStat {
     public int week;
     public int co2;
     public int positiveCustomerScore;

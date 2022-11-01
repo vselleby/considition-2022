@@ -1,5 +1,10 @@
 package responses;
 
+import models.WeeklyStat;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SubmitResponse {
     
     public int totalScore;
@@ -11,12 +16,12 @@ public class SubmitResponse {
 
 
     public SubmitResponse(int totalScore, String gameId, List<WeeklyStat> weeks, int producedBags, int destroyedBags, String link){
-    this.totalScore = totalScore;
-    this.gameId = gameId;
-    this.weeks = weeks;
-    this.producedBags = producedBags;
-    this.destroyedBags = destroyedBags;
-    this.link = link;
+        this.totalScore = totalScore;
+        this.gameId = gameId;
+        this.weeks = weeks;
+        this.producedBags = producedBags;
+        this.destroyedBags = destroyedBags;
+        this.link = link;
     }
 }
 

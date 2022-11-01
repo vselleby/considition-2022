@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Solution {
     public static boolean recycleRefundChoice;
     public static Integer bagPrice;
@@ -11,7 +14,7 @@ public class Solution {
     }
 
     // true = refund decreasing with time, false = penalty after expiration time
-    public void setRecycleRefundCHoice(boolean recycleRefundChoice) {
+    public void setRecycleRefundChoice(boolean recycleRefundChoice) {
         this.recycleRefundChoice = recycleRefundChoice;
     }
 
