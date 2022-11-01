@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solution {
-    public static boolean recycleRefundChoice;
-    public static Integer bagPrice;
-    public static Integer refundAmount;
-    public static Integer bagType;
-    public static List<Integer> orders = new ArrayList<>();
+    public boolean recycleRefundChoice;
+    public Integer bagPrice;
+    public Integer refundAmount;
+    public Integer bagType;
+    public List<Integer> orders = new ArrayList<>();
 
     public Solution() {
     }
