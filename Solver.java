@@ -3,8 +3,8 @@ import java.util.*;
 
 public class Solver {
     private static final List<Double>  bagType_price          = Arrays.asList(1.7, 1.75, 6.0, 25.0, 200.0);
-    private static final List<Integer> bagType_co2_production = Arrays.asList(5, 7, 3, 6, 20);
-    private static final List<Integer> bagType_co2_transport  = Arrays.asList(50, 40, 60, 70, 100);
+    private static final List<Double>  bagType_co2_transport  = Arrays.asList(3.9, 4.2, 1.8, 3.6, 12.0);
+    private static final List<Integer> bagType_co2_production = Arrays.asList(30, 24, 36, 42, 60);
 
     public static int population;
     public static int companyBudget;
