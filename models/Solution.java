@@ -8,6 +8,7 @@ public class Solution {
     public Integer bagPrice;
     public Integer refundAmount;
     public Integer bagType;
+    public String mapname;
     public List<Integer> orders = new ArrayList<>();
 
     public Solution() {
@@ -28,6 +29,10 @@ public class Solution {
 
     public void setBagType(Integer bagType) {
         this.bagType = bagType;
+    }
+
+    public void setMapname(String mapName) {
+        this.mapname = mapName;
     }
 
     public void setOrders(List<Integer> orders) {
