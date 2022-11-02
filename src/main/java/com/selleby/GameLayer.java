@@ -1,10 +1,10 @@
+package com.selleby;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import models.*;
-import responses.GameResponse;
-import responses.SubmitResponse;
-
-import java.util.ArrayList;
+import com.selleby.models.Solution;
+import com.selleby.responses.GameResponse;
+import com.selleby.responses.SubmitResponse;
 
 public class GameLayer {
     private String apiKey;

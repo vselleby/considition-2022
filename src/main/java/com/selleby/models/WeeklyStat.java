@@ -1,4 +1,4 @@
-package models;
+package com.selleby.models;
 
 public class WeeklyStat {
     public int week;

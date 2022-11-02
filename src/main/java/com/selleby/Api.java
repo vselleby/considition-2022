@@ -1,7 +1,10 @@
+package com.selleby;
+
 import com.google.gson.*;
-import models.*;
-import responses.GameResponse;
-import responses.SubmitResponse;
+import com.selleby.models.Solution;
+import com.selleby.responses.GameResponse;
+import com.selleby.responses.SubmitResponse;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

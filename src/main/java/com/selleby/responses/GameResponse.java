@@ -1,4 +1,4 @@
-package responses;
+package com.selleby.responses;
 
 public class GameResponse {
     

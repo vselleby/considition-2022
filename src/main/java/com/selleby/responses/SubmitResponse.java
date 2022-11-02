@@ -1,15 +1,14 @@
-package responses;
+package com.selleby.responses;
 
-import models.WeeklyStat;
+import com.selleby.models.WeeklyStat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SubmitResponse {
     
     public int totalScore;
     public String gameId;
-    public List<WeeklyStat> weeks = new ArrayList<>();
+    public List<WeeklyStat> weeks;
     public int producedBags;
     public int destroyedBags;
     public String link;

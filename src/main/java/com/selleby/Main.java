@@ -1,9 +1,11 @@
-import models.Solution;
-import responses.GameResponse;
-import responses.SubmitResponse;
+package com.selleby;
+
+import com.selleby.models.Solution;
+import com.selleby.responses.GameResponse;
+import com.selleby.responses.SubmitResponse;
 
 public class Main {
-    private static final String ApiKey = ""; //TODO Put your teams API Key here
+    private static final String ApiKey = "0810c08c-7abc-4af9-267d-08dab8e1e0aa";
     private static final String Map = "Suburbia"; //TODO Enter what map you want to play,
      //new ones will be released on considition.com/rules
      

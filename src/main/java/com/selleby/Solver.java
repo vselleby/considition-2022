@@ -1,4 +1,7 @@
-import models.Solution;
+package com.selleby;
+
+import com.selleby.models.Solution;
+
 import java.util.*;
 
 public class Solver {
