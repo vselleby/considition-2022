@@ -5,9 +5,54 @@ import com.selleby.models.Solution;
 import java.util.*;
 
 public class Solver {
-    private final List<Double>  bagType_price          = Arrays.asList(1.7, 1.75, 6.0, 25.0, 200.0);
-    private final List<Double>  bagType_co2_transport  = Arrays.asList(3.0, 4.2, 1.8, 3.6, 12.0);
-    private final List<Integer> bagType_co2_production = Arrays.asList(30, 24, 36, 42, 60);
+
+    enum BagType {
+        ONE(1, 1.7, 0, 1, 3, 30),
+        TWO(2, 1.75, 1, 2, 4.2, 24),
+        THREE(3, 6.0, 5, 3, 1.8, 36),
+        FOUR(4, 25.0, 9, 5, 3.6, 42),
+        FIVE(5, 200.0, 12, 7, 12, 60);
+
+        private final int index;
+        private final double price;
+        private final int reuses;
+        private final int washTimeInDays;
+        private final double transportEmissions;
+        private final int productionEmissions;
+
+        BagType(int index, double price, int reuses, int washTimeInDays, double transportEmissions, int productionEmissions) {
+            this.index = index;
+            this.price = price;
+            this.reuses = reuses;
+            this.washTimeInDays = washTimeInDays;
+            this.transportEmissions = transportEmissions;
+            this.productionEmissions = productionEmissions;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public int getReuses() {
+            return reuses;
+        }
+
+        public int getWashTimeInDays() {
+            return washTimeInDays;
+        }
+
+        public double getTransportEmissions() {
+            return transportEmissions;
+        }
+
+        public int getProductionEmissions() {
+            return productionEmissions;
+        }
+    }
 
     public int population;
     public int companyBudget;
@@ -23,33 +68,25 @@ public class Solver {
         solution = new Solution();
     }
 
-    public Solution Solve(int bagType, int bagPrice, boolean recycleChoice, int refundAmount) {
-        solution.setBagType(bagType);
+    public Solution Solve(BagType bagType, int bagPrice, boolean recycleChoice, int refundAmount) {
+        solution.setBagType(bagType.getIndex());
         solution.setBagPrice(bagPrice);
         solution.setRecycleRefundChoice(recycleChoice);
         solution.setRefundAmount(refundAmount);
 
         List<Integer> orders = new ArrayList<>();
         for (int day = 0; day < days; day++) {
-            orders.add(wasteMoney(bagType));
+            orders.add(someWhatDecentSolver(day, bagType));
         }
-        
+
         solution.setOrders(orders);
         return solution;
     }
 
-    // Solution 1: "Spend all money day 1"
-    private Integer wasteMoney(int bagtype) {
-        return (int)Math.floor(companyBudget / bagType_price.get(bagtype));
-    }
-
-    // Solution 2: "Spend equally money every day"
-    private Integer splitMoney(int bagtype) {
-        return (int)Math.floor(companyBudget / bagType_price.get(bagtype) / days);
-    }
-
-    // Solution 3: "Everyone get one bag every day"
-    private Integer holdMoney(int bagtype) {
-        return (int)Math.floor(companyBudget / bagType_price.get(bagtype) / population / days);
+    private Integer someWhatDecentSolver(int day, BagType bagType) {
+        if (day % 7 == 0) {
+            return (int) Math.ceil(2 * population * bagType.getPrice());
+        }
+        return 0;
     }
 }

@@ -14,7 +14,7 @@ public class Solution {
     public Solution() {
     }
 
-    // true = refund decreasing with time, false = penalty after expiration time
+    // true = refund decreasing with 1 cost unit per day, false = penalty after expiration time of 14 days.
     public void setRecycleRefundChoice(boolean recycleRefundChoice) {
         this.recycleRefundChoice = recycleRefundChoice;
     }
