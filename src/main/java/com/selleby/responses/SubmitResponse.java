@@ -1,26 +1,26 @@
 package com.selleby.responses;
 
-import com.selleby.models.WeeklyStat;
+import com.selleby.models.DailyStat;
 
 import java.util.List;
 
 public class SubmitResponse {
     
-    public int totalScore;
+    public int score;
     public String gameId;
-    public List<WeeklyStat> weeks;
-    public int producedBags;
-    public int destroyedBags;
-    public String link;
+    public int totalProducedBags;
+    public int totalDestroyedBags;
+    public List<DailyStat> dailys;
+    public String visualizer;
 
 
-    public SubmitResponse(int totalScore, String gameId, List<WeeklyStat> weeks, int producedBags, int destroyedBags, String link){
-        this.totalScore = totalScore;
+    public SubmitResponse(int totalScore, String gameId, List<DailyStat> weeks, int producedBags, int destroyedBags, String visualizer){
+        this.score = totalScore;
         this.gameId = gameId;
-        this.weeks = weeks;
-        this.producedBags = producedBags;
-        this.destroyedBags = destroyedBags;
-        this.link = link;
+        this.dailys = weeks;
+        this.totalProducedBags = producedBags;
+        this.totalDestroyedBags = destroyedBags;
+        this.visualizer = visualizer;
     }
 }
 

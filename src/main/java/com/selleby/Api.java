@@ -45,7 +45,7 @@ public class Api {
 
     public static SubmitResponse SubmitGame(Solution solution, String mapName, String apiKey){
         try {
-            solution.setMapname(mapName);
+            solution.setMapName(mapName);
             URL url = new URL(BasePath + "/submit");
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

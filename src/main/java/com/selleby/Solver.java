@@ -5,15 +5,15 @@ import com.selleby.models.Solution;
 import java.util.*;
 
 public class Solver {
-    private static final List<Double>  bagType_price          = Arrays.asList(1.7, 1.75, 6.0, 25.0, 200.0);
-    private static final List<Double>  bagType_co2_transport  = Arrays.asList(3.9, 4.2, 1.8, 3.6, 12.0);
-    private static final List<Integer> bagType_co2_production = Arrays.asList(30, 24, 36, 42, 60);
+    private final List<Double>  bagType_price          = Arrays.asList(1.7, 1.75, 6.0, 25.0, 200.0);
+    private final List<Double>  bagType_co2_transport  = Arrays.asList(3.0, 4.2, 1.8, 3.6, 12.0);
+    private final List<Integer> bagType_co2_production = Arrays.asList(30, 24, 36, 42, 60);
 
-    public static int population;
-    public static int companyBudget;
-    public static int days;
+    public int population;
+    public int companyBudget;
+    public int days;
 
-    private Solution solution;
+    private final Solution solution;
 
     public Solver(int population, int companyBudget, int days) {
         this.population = population;
@@ -23,15 +23,15 @@ public class Solver {
         solution = new Solution();
     }
 
-    public Solution Solve(int bagtype) {
-        solution.setRecycleRefundChoice(true);
-        solution.setBagPrice(10);
-        solution.setRefundAmount(1);
-        solution.setBagType(bagtype);
-        
+    public Solution Solve(int bagType, int bagPrice, boolean recycleChoice, int refundAmount) {
+        solution.setBagType(bagType);
+        solution.setBagPrice(bagPrice);
+        solution.setRecycleRefundChoice(recycleChoice);
+        solution.setRefundAmount(refundAmount);
+
         List<Integer> orders = new ArrayList<>();
         for (int day = 0; day < days; day++) {
-            orders.add(wasteMoney(bagtype));
+            orders.add(wasteMoney(bagType));
         }
         
         solution.setOrders(orders);
@@ -39,17 +39,17 @@ public class Solver {
     }
 
     // Solution 1: "Spend all money day 1"
-    private static Integer wasteMoney(int bagtype) {
+    private Integer wasteMoney(int bagtype) {
         return (int)Math.floor(companyBudget / bagType_price.get(bagtype));
     }
 
     // Solution 2: "Spend equally money every day"
-    private static Integer splitMoney(int bagtype) {
+    private Integer splitMoney(int bagtype) {
         return (int)Math.floor(companyBudget / bagType_price.get(bagtype) / days);
     }
 
     // Solution 3: "Everyone get one bag every day"
-    private static Integer holdMoney(int bagtype) {
+    private Integer holdMoney(int bagtype) {
         return (int)Math.floor(companyBudget / bagType_price.get(bagtype) / population / days);
     }
 }
