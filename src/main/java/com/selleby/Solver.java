@@ -5,7 +5,7 @@ import com.selleby.responses.GameResponse;
 import com.selleby.responses.SubmitResponse;
 
 
-public abstract class Solver {
+public abstract class Solver<T extends SubmitResponse> {
     protected Api api;
     protected GameResponse gameResponse;
 
@@ -14,5 +14,5 @@ public abstract class Solver {
         this.gameResponse = api.mapInfo();
     }
 
-    public abstract SubmitResponse solve(Solution solution);
+    public abstract T solve(Solution solution);
 }

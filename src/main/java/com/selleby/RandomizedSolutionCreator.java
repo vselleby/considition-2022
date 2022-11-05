@@ -17,7 +17,7 @@ public class RandomizedSolutionCreator extends SolutionCreator {
         Random random = new Random();
         //int randomBagPick = random.nextInt(4);
         //BagType bagType = BagType.values()[randomBagPick];
-        BagType bagType = BagType.TWO;
+        BagType bagType = BagType.THREE;
         Solution solution = new Solution();
         solution.setMapName(MAP_NAME);
         solution.setBagType(bagType.getIndex());

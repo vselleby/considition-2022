@@ -2,6 +2,7 @@ package com.selleby;
 
 import com.selleby.models.DailyStat;
 import com.selleby.models.Solution;
+import com.selleby.responses.ForwardLookingResponse;
 import com.selleby.responses.SubmitResponse;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 import static com.selleby.GlobalVariables.DAYS;
 import static java.lang.Math.floor;
 
-public class ForwardLookingSolver extends Solver {
+public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
     private int forwardLookingDays;
 
     public ForwardLookingSolver(Api api, int forwardLookingDays) {
@@ -24,7 +25,7 @@ public class ForwardLookingSolver extends Solver {
     }
 
     @Override
-    public SubmitResponse solve(Solution solution) {
+    public ForwardLookingResponse solve(Solution solution) {
         List<Integer> orders = new ArrayList<>(Collections.nCopies(DAYS, 0));
         SubmitResponse bestSubmitResponse = null;
         int bestOrderForDay = 0;
@@ -50,7 +51,7 @@ public class ForwardLookingSolver extends Solver {
                 }
             }
         }
-        return bestSubmitResponse;
+        return new ForwardLookingResponse(bestSubmitResponse, forwardLookingDays);
     }
 
     private int calculateAverageDailyScore(int startDay, List<DailyStat> dailyStats) {

@@ -6,7 +6,7 @@ import com.selleby.responses.SubmitResponse;
 
 import static com.selleby.GlobalVariables.DAYS;
 
-public class DroneSolver extends Solver {
+public class DroneSolver extends Solver<DroneSubmitResponse> {
 
     private Drone[] drones;
 
@@ -18,7 +18,7 @@ public class DroneSolver extends Solver {
 
 
     @Override
-    public SubmitResponse solve(Solution solution) {
+    public DroneSubmitResponse solve(Solution solution) {
         SubmitResponse bestResponse = null;
         Drone bestDrone = null;
 
