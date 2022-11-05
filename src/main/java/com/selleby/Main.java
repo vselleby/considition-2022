@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 
 public class Main {
-    private static final String MAP_NAME = "Fancyville";
+    private static final String MAP_NAME = "Suburbia";
     private static final int DAYS = 31;
 
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class Main {
             IntStream.range(1, 1000).parallel().forEach(ignored -> {
                 Api api = new Api();
                 ForwardLookingSolver solver = new ForwardLookingSolver(api, MAP_NAME, DAYS, 7);
-                Solution solution = new RandomizedSolutionCreator(api, MAP_NAME).createSolution();
+                Solution solution = new StaticSolutionCreator(api, MAP_NAME).createSolution();
                 Random random = new Random();
 
                 int forwardLookingDays = random.nextInt(1, 8);
@@ -30,7 +30,7 @@ public class Main {
                     return;
                 }
                 else {
-                    runStates.put(new IterationState(solution, null, forwardLookingDays), 1);
+                    runStates.put(new IterationState(solution.copyBaseInformation(), null, forwardLookingDays), 1);
                 }
                 System.out.printf("Running solver for: BagType: %d BagPrice: %d Refund: %d Choice: %s Forward: %d%n", solution.bagType, solution.bagPrice, solution.refundAmount, solution.recycleRefundChoice, forwardLookingDays);
                 solver.setForwardLookingDays(forwardLookingDays);
