@@ -23,6 +23,10 @@ public class SubmitResponse {
         this.visualizer = visualizer;
     }
 
+    public SubmitResponse(SubmitResponse copy) {
+        this(copy.score, copy.gameId, copy.dailys, copy.totalProducedBags, copy.totalDestroyedBags, copy.visualizer);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
