@@ -6,11 +6,13 @@ import com.selleby.responses.SubmitResponse;
 
 
 public abstract class Solver {
+    protected Api api;
     protected GameResponse gameResponse;
     protected int days;
 
-    public Solver(GameResponse gameResponse, int days) {
-        this.gameResponse = gameResponse;
+    public Solver(Api api, String mapName, int days) {
+        this.api = api;
+        this.gameResponse = api.mapInfo(mapName);
         this.days = days;
     }
 

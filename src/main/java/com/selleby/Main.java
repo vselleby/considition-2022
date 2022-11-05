@@ -10,7 +10,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 
-import static com.selleby.Api.mapInfo;
 
 public class Main {
     private static final String MAP_NAME = "Fancyville";
@@ -19,10 +18,10 @@ public class Main {
     public static void main(String[] args) {
         try {
             RecordPersistor persistor = new RecordPersistor();
-            ForwardLookingSolver solver = new ForwardLookingSolver(mapInfo(MAP_NAME), DAYS, 7);
 
             Map<IterationState, Integer> runStates = new ConcurrentHashMap<>();
             IntStream.range(1, 1000).parallel().forEach(ignored -> {
+                ForwardLookingSolver solver = new ForwardLookingSolver(new Api(), MAP_NAME, DAYS, 7);
                 Random random = new Random();
                 //int randomBagPick = random.nextInt(4);
                 //BagType bagType = BagType.values()[randomBagPick];

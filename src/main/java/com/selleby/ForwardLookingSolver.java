@@ -2,21 +2,19 @@ package com.selleby;
 
 import com.selleby.models.DailyStat;
 import com.selleby.models.Solution;
-import com.selleby.responses.GameResponse;
 import com.selleby.responses.SubmitResponse;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.selleby.Api.submitGame;
 import static java.lang.Math.floor;
 
 public class ForwardLookingSolver extends Solver {
     private int forwardLookingDays;
 
-    public ForwardLookingSolver(GameResponse gameResponse, int days, int forwardLookingDays) {
-        super(gameResponse, days);
+    public ForwardLookingSolver(Api api, String mapName, int days, int forwardLookingDays) {
+        super(api, mapName, days);
         this.forwardLookingDays = forwardLookingDays;
     }
 
@@ -40,7 +38,7 @@ public class ForwardLookingSolver extends Solver {
             for (int i = 0; i < companyBudget; i++) {
                 orders.set(day, i);
                 solution.setOrders(orders);
-                SubmitResponse submitResponse = submitGame(solution);
+                SubmitResponse submitResponse = api.submitGame(solution);
                 if (bestDailyStats == null || calculateAverageDailyScore(day, bestDailyStats) <
                         calculateAverageDailyScore(day, submitResponse.dailys)) {
                     System.out.println("New total score: " + submitResponse.score);

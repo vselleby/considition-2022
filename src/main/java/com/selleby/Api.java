@@ -17,14 +17,14 @@ public class Api {
     private static final String API_KEY = "0810c08c-7abc-4af9-267d-08dab8e1e0aa";
 
     private static final String BASE_PATH ="https://api.considition.com/api/game";
-    private static final Gson gson;
+    private final Gson gson;
 
-    static {
+    public Api() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
     }
 
-    public static GameResponse mapInfo(String mapName) {
+    public GameResponse mapInfo(String mapName) {
        try {
 
             URL url = new URL(BASE_PATH + "/mapInfo?MapName=" + mapName);
@@ -45,7 +45,7 @@ public class Api {
         }
     }
 
-    public static SubmitResponse submitGame(Solution solution){
+    public SubmitResponse submitGame(Solution solution){
         try {
             URL url = new URL(BASE_PATH + "/submit");
 
