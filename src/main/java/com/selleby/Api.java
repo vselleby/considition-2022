@@ -14,7 +14,9 @@ import java.net.URL;
 
 
 public class Api {
-    private static final String BasePath ="https://api.considition.com/api/game";
+    private static final String API_KEY = "0810c08c-7abc-4af9-267d-08dab8e1e0aa";
+
+    private static final String BASE_PATH ="https://api.considition.com/api/game";
     private static final Gson gson;
 
     static {
@@ -22,13 +24,13 @@ public class Api {
         gson = gsonBuilder.create();
     }
 
-    public static GameResponse mapInfo(String mapName, String apiKey) {
+    public static GameResponse mapInfo(String mapName) {
        try {
 
-            URL url = new URL(BasePath + "/mapInfo?MapName=" + mapName);
+            URL url = new URL(BASE_PATH + "/mapInfo?MapName=" + mapName);
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("x-api-key", apiKey);
+            con.setRequestProperty("x-api-key", API_KEY);
             con.setRequestMethod("GET");
             con.setDoInput(true);
             String response = readApiResponse(con);
@@ -43,13 +45,12 @@ public class Api {
         }
     }
 
-    public static SubmitResponse SubmitGame(Solution solution, String mapName, String apiKey){
+    public static SubmitResponse submitGame(Solution solution){
         try {
-            solution.setMapName(mapName);
-            URL url = new URL(BasePath + "/submit");
+            URL url = new URL(BASE_PATH + "/submit");
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("x-api-key", apiKey);
+            con.setRequestProperty("x-api-key", API_KEY);
             con.setRequestMethod("POST");
             con.setDoInput(true);
             String solutionInJson = gson.toJson(solution);
@@ -57,10 +58,8 @@ public class Api {
             return gson.fromJson(response, SubmitResponse.class);
 
         } catch (Exception e) {
-            System.out.println("Fatal error: Could not submit game");
-            System.out.println("Error: " + e.getMessage());
-            System.exit(1);
-            return null;
+            System.out.println("Fatal error: Could not submit game. Retrying!");
+            return submitGame(solution);
         }
     }
 
