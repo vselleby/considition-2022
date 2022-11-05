@@ -67,9 +67,7 @@ public class Api {
 
         if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String output = br.readLine();
-            String response = output;
-            return response;
+            return br.readLine();
         } else {
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             String response = br.readLine();
@@ -91,8 +89,7 @@ public class Api {
 
         if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String response = br.readLine();
-            return response;
+            return br.readLine();
         } else {
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             String response = br.readLine();
