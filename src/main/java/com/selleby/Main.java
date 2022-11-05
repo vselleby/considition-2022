@@ -21,15 +21,14 @@ public class Main {
             RecordPersistor persistor = new RecordPersistor();
             ForwardLookingSolver solver = new ForwardLookingSolver(mapInfo(MAP_NAME), DAYS, 7);
 
-            Solution solution = new Solution();
-            solution.setMapName(MAP_NAME);
-
             Map<IterationState, Integer> runStates = new ConcurrentHashMap<>();
             IntStream.range(1, 1000).parallel().forEach(ignored -> {
                 Random random = new Random();
                 //int randomBagPick = random.nextInt(4);
                 //BagType bagType = BagType.values()[randomBagPick];
                 BagType bagType = BagType.TWO;
+                Solution solution = new Solution();
+                solution.setMapName(MAP_NAME);
                 solution.setBagType(bagType.getIndex());
                 solution.setBagPrice((int) Math.ceil(random.nextDouble(0.5, 1.5) * bagType.getPrice()));
                 solution.setRefundAmount((int) Math.floor(random.nextDouble(0.5, 1) * bagType.getPrice()));
