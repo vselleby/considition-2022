@@ -41,8 +41,6 @@ public class ForwardLookingSolver extends Solver {
                 SubmitResponse submitResponse = api.submitGame(solution);
                 if (bestDailyStats == null || calculateAverageDailyScore(day, bestDailyStats) <
                         calculateAverageDailyScore(day, submitResponse.dailys)) {
-                    System.out.println("New total score: " + submitResponse.score);
-                    System.out.println("Orders: " +solution.orders);
                     bestDailyStats = submitResponse.dailys;
                     bestOrderForDay = i;
                     bestSubmitResponse = submitResponse;

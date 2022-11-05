@@ -5,7 +5,6 @@ import com.selleby.models.DailyStat;
 import java.util.List;
 
 public class SubmitResponse {
-    
     public int score;
     public String gameId;
     public int totalProducedBags;

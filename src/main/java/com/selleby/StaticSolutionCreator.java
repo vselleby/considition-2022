@@ -11,11 +11,11 @@ public class StaticSolutionCreator extends SolutionCreator {
     @Override
     public Solution createSolution() {
         Solution solution = new Solution();
-        solution.setBagType(5);
-        solution.setRefundAmount(200);
+        solution.setBagType(2);
+        solution.setRefundAmount(5);
         solution.setMapName(mapName);
         solution.setRecycleRefundChoice(false);
-        solution.setBagPrice(200);
+        solution.setBagPrice(2);
         return solution;
     }
 }
