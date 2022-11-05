@@ -4,16 +4,15 @@ import com.selleby.models.Solution;
 
 
 public class StaticSolutionCreator extends SolutionCreator {
-    public StaticSolutionCreator(Api api, String mapName) {
-        super(api, mapName);
+    public StaticSolutionCreator(Api api) {
+        super(api);
     }
 
     @Override
     public Solution createSolution() {
         Solution solution = new Solution();
-        solution.setBagType(2);
-        solution.setRefundAmount(5);
-        solution.setMapName(mapName);
+        solution.setBagType(1);
+        solution.setRefundAmount(1);
         solution.setRecycleRefundChoice(false);
         solution.setBagPrice(2);
         return solution;

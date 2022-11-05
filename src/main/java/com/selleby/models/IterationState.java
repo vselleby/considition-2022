@@ -10,11 +10,11 @@ public record IterationState(Solution solution, SubmitResponse submitResponse, i
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IterationState that = (IterationState) o;
-        return futureLooking == that.futureLooking && submitResponse.equals(that.submitResponse) && solution.equals(that.solution);
+        return futureLooking == that.futureLooking && solution.equals(that.solution) && Objects.equals(submitResponse, that.submitResponse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(solution, futureLooking);
+        return Objects.hash(solution, submitResponse, futureLooking);
     }
 }

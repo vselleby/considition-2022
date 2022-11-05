@@ -1,17 +1,11 @@
 package com.selleby;
 
 
-import java.awt.geom.Point2D;
-
-public class Drone
-{
-
+public class Drone {
     private DroneData data;
-
 
     public Drone(final int daysToLive) {
         this.data = new DroneData(daysToLive);
-
     }
 
     public void mutate(DroneData survivorDroneData, int numberOfDays) {

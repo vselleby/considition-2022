@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.selleby.GlobalVariables.MAP_NAME;
+
 
 public class Api {
     private static final String API_KEY = "0810c08c-7abc-4af9-267d-08dab8e1e0aa";
@@ -24,10 +26,10 @@ public class Api {
         gson = gsonBuilder.create();
     }
 
-    public GameResponse mapInfo(String mapName) {
+    public GameResponse mapInfo() {
        try {
 
-            URL url = new URL(BASE_PATH + "/mapInfo?MapName=" + mapName);
+            URL url = new URL(BASE_PATH + "/mapInfo?MapName=" + MAP_NAME);
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestProperty("x-api-key", API_KEY);

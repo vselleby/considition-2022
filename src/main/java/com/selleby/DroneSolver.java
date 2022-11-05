@@ -1,21 +1,17 @@
 package com.selleby;
 
-import com.selleby.models.BagType;
 import com.selleby.models.Solution;
 import com.selleby.responses.DroneSubmitResponse;
 import com.selleby.responses.SubmitResponse;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static com.selleby.GlobalVariables.DAYS;
 
 public class DroneSolver extends Solver {
 
     private Drone[] drones;
 
-    public DroneSolver(Api api, String mapName, int days, Drone[] drones) {
-        super(api,mapName,days);
+    public DroneSolver(Api api, Drone[] drones) {
+        super(api);
         this.drones = drones;
     }
 
@@ -39,7 +35,7 @@ public class DroneSolver extends Solver {
             }
             DroneData bestData = bestDrone.getDroneData();
             for (int i = 0; i < 100; i++) {
-                drones[i].mutate(bestData,days);
+                drones[i].mutate(bestData, DAYS);
             }
         }
         return new DroneSubmitResponse(bestResponse,bestDrone);

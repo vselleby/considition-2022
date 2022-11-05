@@ -4,11 +4,9 @@ import com.selleby.models.Solution;
 
 public abstract class SolutionCreator {
     protected final Api api;
-    protected final String mapName;
 
-    public SolutionCreator(Api api, String mapName) {
+    public SolutionCreator(Api api) {
         this.api = api;
-        this.mapName = mapName;
     }
 
 

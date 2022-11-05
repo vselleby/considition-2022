@@ -11,9 +11,6 @@ import java.util.stream.IntStream;
 
 
 public class Main {
-    private static final String MAP_NAME = "Suburbia";
-    private static final int DAYS = 31;
-
     public static void main(String[] args) {
         try {
             RecordPersistor persistor = new RecordPersistor();
@@ -21,8 +18,8 @@ public class Main {
             Map<IterationState, Integer> runStates = new ConcurrentHashMap<>();
             IntStream.range(1, 1000).parallel().forEach(ignored -> {
                 Api api = new Api();
-                ForwardLookingSolver solver = new ForwardLookingSolver(api, MAP_NAME, DAYS, 7);
-                Solution solution = new StaticSolutionCreator(api, MAP_NAME).createSolution();
+                ForwardLookingSolver solver = new ForwardLookingSolver(api, 7);
+                Solution solution = new StaticSolutionCreator(api).createSolution();
                 Random random = new Random();
 
                 int forwardLookingDays = random.nextInt(1, 8);
@@ -38,7 +35,7 @@ public class Main {
                 persistor.persist(new IterationState(solution, bestResponse, forwardLookingDays));
                 if (bestResponse != null) {
                     System.out.println("Total score: " + bestResponse.score);
-                    System.out.printf("BagType: %d BagPrice: %d Refund: %d Choice: %s%n", solution.bagType, solution.bagPrice, solution.refundAmount, solution.recycleRefundChoice);
+                    System.out.printf("BagType: %d BagPrice: %d Refund: %d Choice: %s forward looking: %d%n", solution.bagType, solution.bagPrice, solution.refundAmount, solution.recycleRefundChoice, forwardLookingDays);
                     System.out.println("Orders: " + solution.orders);
                     System.out.println("Visualizer: " + bestResponse.visualizer);
                 }

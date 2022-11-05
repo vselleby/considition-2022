@@ -5,9 +5,11 @@ import com.selleby.models.Solution;
 
 import java.util.Random;
 
+import static com.selleby.GlobalVariables.MAP_NAME;
+
 public class RandomizedSolutionCreator extends SolutionCreator {
-    public RandomizedSolutionCreator(Api api, String mapName) {
-        super(api, mapName);
+    public RandomizedSolutionCreator(Api api) {
+        super(api);
     }
 
     @Override
@@ -17,7 +19,7 @@ public class RandomizedSolutionCreator extends SolutionCreator {
         //BagType bagType = BagType.values()[randomBagPick];
         BagType bagType = BagType.TWO;
         Solution solution = new Solution();
-        solution.setMapName(mapName);
+        solution.setMapName(MAP_NAME);
         solution.setBagType(bagType.getIndex());
         solution.setBagPrice((int) Math.ceil(random.nextDouble(0.5, 1.5) * bagType.getPrice()));
         solution.setRefundAmount((int) Math.floor(random.nextDouble(0.5, 1) * bagType.getPrice()));

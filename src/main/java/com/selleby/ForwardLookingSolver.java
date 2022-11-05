@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.selleby.GlobalVariables.DAYS;
 import static java.lang.Math.floor;
 
 public class ForwardLookingSolver extends Solver {
     private int forwardLookingDays;
 
-    public ForwardLookingSolver(Api api, String mapName, int days, int forwardLookingDays) {
-        super(api, mapName, days);
+    public ForwardLookingSolver(Api api, int forwardLookingDays) {
+        super(api);
         this.forwardLookingDays = forwardLookingDays;
     }
 
@@ -24,11 +25,11 @@ public class ForwardLookingSolver extends Solver {
 
     @Override
     public SubmitResponse solve(Solution solution) {
-        List<Integer> orders = new ArrayList<>(Collections.nCopies(days, 0));
+        List<Integer> orders = new ArrayList<>(Collections.nCopies(DAYS, 0));
         SubmitResponse bestSubmitResponse = null;
         int bestOrderForDay = 0;
         outer:
-        for (int day = 0; day < days; day++) {
+        for (int day = 0; day < DAYS; day++) {
             if (day > 0) {
                 orders.set(day - 1, bestOrderForDay);
             }

@@ -1,8 +1,6 @@
 package com.selleby;
 
 public class DroneData {
-
-
     public double[] dailyProductionEmissionFactor;
     public double[] dailyTransportEmissionFactor;
     public double[] dailyWashFactor;
