@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 
 public class Main {
-    private static final String MAP_NAME = "Fancyville";
+    private static final String MAP_NAME = "Suburbia";
     private static final int DAYS = 31;
 
     public static void main(String[] args) {
