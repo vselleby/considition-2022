@@ -60,7 +60,7 @@ public class Api {
             return gson.fromJson(response, SubmitResponse.class);
 
         } catch (Exception e) {
-            System.out.println("Fatal error: Could not submit game. Retrying!");
+            System.out.printf("Fatal error: Could not submit game. Retrying! Error message: %s%n", e.getMessage());
             return submitGame(solution);
         }
     }

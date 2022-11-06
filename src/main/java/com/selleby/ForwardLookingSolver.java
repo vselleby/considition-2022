@@ -14,10 +14,15 @@ import static java.lang.Math.floor;
 
 public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
     private int forwardLookingDays;
+    private int mapDays = DAYS;
 
     public ForwardLookingSolver(Api api, int forwardLookingDays) {
         super(api);
         this.forwardLookingDays = forwardLookingDays;
+    }
+
+    public void setMapDays(int mapDays) {
+        this.mapDays = mapDays;
     }
 
     public void setForwardLookingDays(int forwardLookingDays) {
@@ -26,28 +31,37 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
 
     @Override
     public ForwardLookingResponse solve(Solution solution) {
-        List<Integer> orders = new ArrayList<>(Collections.nCopies(DAYS, 0));
+        List<Integer> orders = new ArrayList<>(Collections.nCopies(mapDays, 0));
         SubmitResponse bestSubmitResponse = null;
-        int bestOrderForDay = 0;
-        outer:
-        for (int day = 0; day < DAYS; day++) {
-            if (day > 0) {
-                orders.set(day - 1, bestOrderForDay);
-            }
-            List<DailyStat> bestDailyStats = null;
-            bestOrderForDay = 0;
-            int companyBudget = bestSubmitResponse == null ? gameResponse.companyBudget : (int) floor(bestSubmitResponse.dailys.get(day).companyBudget);
-            for (int i = 0; i < companyBudget; i++) {
-                orders.set(day, i);
+        dayLoop:
+        for (int day = 0; day < mapDays; day++) {
+            int bestAverageDailyScore = Integer.MIN_VALUE;
+            int bestOrderForDay = 0;
+            int incrementStep = 0;
+            int nextOrderForDay = 0;
+            for (;;) {
+                orders.set(day, nextOrderForDay);
                 solution.setOrders(orders);
+                System.out.println("Submitting. Orders are: " + orders);
                 SubmitResponse submitResponse = api.submitGame(solution);
-                if (bestDailyStats == null || calculateAverageDailyScore(day, bestDailyStats) <
-                        calculateAverageDailyScore(day, submitResponse.dailys)) {
-                    bestDailyStats = submitResponse.dailys;
-                    bestOrderForDay = i;
-                    bestSubmitResponse = submitResponse;
-                } else {
-                    continue outer;
+                int companyBudget = (int) floor(submitResponse.dailys.get(day).companyBudget);
+                int averageDailyScore = calculateAverageDailyScore(day, submitResponse.dailys);
+                if (averageDailyScore > bestAverageDailyScore && companyBudget >= 0) {
+                    bestAverageDailyScore = averageDailyScore;
+                    bestOrderForDay = nextOrderForDay;
+                    bestSubmitResponse = new SubmitResponse(submitResponse);
+                    orders.set(day, bestOrderForDay);
+                    incrementStep = incrementStep == 0 ? 1 : incrementStep * 2;
+                    nextOrderForDay += incrementStep;
+                }
+                else if (incrementStep > 1) {
+                    incrementStep = 1;
+                    nextOrderForDay = bestOrderForDay + incrementStep;
+                }
+                else {
+                    System.out.println("Moving to next day. Orders are: " + orders);
+                    orders.set(day, bestOrderForDay);
+                    continue dayLoop;
                 }
             }
         }

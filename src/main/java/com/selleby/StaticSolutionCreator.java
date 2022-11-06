@@ -2,6 +2,8 @@ package com.selleby;
 
 import com.selleby.models.Solution;
 
+import static com.selleby.GlobalVariables.MAP_NAME;
+
 
 public class StaticSolutionCreator extends SolutionCreator {
     public StaticSolutionCreator(Api api) {
@@ -11,9 +13,10 @@ public class StaticSolutionCreator extends SolutionCreator {
     @Override
     public Solution createSolution() {
         Solution solution = new Solution();
-        solution.setBagType(1);
+        solution.setMapName(MAP_NAME);
+        solution.setBagType(2);
         solution.setRefundAmount(1);
-        solution.setRecycleRefundChoice(false);
+        solution.setRecycleRefundChoice(true);
         solution.setBagPrice(2);
         return solution;
     }

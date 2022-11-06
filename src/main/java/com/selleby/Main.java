@@ -3,7 +3,6 @@ package com.selleby;
 import com.selleby.models.IterationState;
 import com.selleby.models.Solution;
 import com.selleby.responses.ForwardLookingResponse;
-import com.selleby.responses.SubmitResponse;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,25 +17,25 @@ public class Main {
 
             Map<Solution, ForwardLookingResponse> solutionResponsePairs = new ConcurrentHashMap<>();
             Map<IterationState, Integer> runStates = new ConcurrentHashMap<>();
-            IntStream.range(1, 5).parallel().forEach(ignored -> {
+            IntStream.range(1, 5000).forEach(ignored -> {
                 Api api = new Api();
-                ForwardLookingSolver solver = new ForwardLookingSolver(api, 7);
                 Solution solution = new RandomizedSolutionCreator(api).createSolution();
                 Random random = new Random();
 
-                int forwardLookingDays = random.nextInt(1, 8);
-                if (runStates.containsKey(new IterationState(solution, null, forwardLookingDays))) {
+                int forwardLookingDays = random.nextInt(6, 9);
+                ForwardLookingSolver solver = new ForwardLookingSolver(api, forwardLookingDays);
+                if (runStates.containsKey(new IterationState(solution, null))) {
                     return;
                 }
                 else {
-                    runStates.put(new IterationState(solution.copyBaseInformation(), null, forwardLookingDays), 1);
+                    runStates.put(new IterationState(solution.copyBaseInformation(), null), 1);
                 }
                 System.out.printf("Running solver for: BagType: %d BagPrice: %d Refund: %d Choice: %s Forward: %d%n",
                         solution.bagType, solution.bagPrice, solution.refundAmount, solution.recycleRefundChoice, forwardLookingDays);
                 solver.setForwardLookingDays(forwardLookingDays);
                 ForwardLookingResponse bestResponse = solver.solve(solution);
                 solutionResponsePairs.putIfAbsent(solution, bestResponse);
-                persistor.persist(new IterationState(solution, bestResponse, forwardLookingDays));
+                persistor.persist(new IterationState(solution, bestResponse));
                 if (bestResponse != null) {
                     System.out.println("Total score: " + bestResponse.score);
                     System.out.printf("BagType: %d BagPrice: %d Refund: %d Choice: %s forward looking: %d%n",

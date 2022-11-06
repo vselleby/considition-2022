@@ -17,12 +17,12 @@ public class RandomizedSolutionCreator extends SolutionCreator {
         Random random = new Random();
         //int randomBagPick = random.nextInt(4);
         //BagType bagType = BagType.values()[randomBagPick];
-        BagType bagType = BagType.THREE;
+        BagType bagType = BagType.TWO;
         Solution solution = new Solution();
         solution.setMapName(MAP_NAME);
         solution.setBagType(bagType.getIndex());
-        solution.setBagPrice((int) Math.ceil(random.nextDouble(0.5, 1.5) * bagType.getPrice()));
-        solution.setRefundAmount((int) Math.floor(random.nextDouble(0.5, 1) * bagType.getPrice()));
+        solution.setBagPrice((int) Math.ceil(random.nextDouble(0.5, 5) * bagType.getPrice()));
+        solution.setRefundAmount((int) Math.floor(random.nextDouble(0.5, 5) * bagType.getPrice()));
         solution.setRecycleRefundChoice(random.nextBoolean());
         return solution;
     }

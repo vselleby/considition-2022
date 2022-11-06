@@ -16,7 +16,7 @@ public class RecordPersistor {
         printWriter = new PrintWriter(new BufferedWriter(new FileWriter(FILE_PATH, true)), true);
     }
 
-    public void persist(IterationState iterationState) {
+    public synchronized void persist(IterationState iterationState) {
         if (scoreAbovePersistenceLevel(iterationState)) {
             String json = gson.toJson(iterationState);
             printWriter.println(json);
