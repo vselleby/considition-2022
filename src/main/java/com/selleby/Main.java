@@ -17,7 +17,7 @@ public class Main {
 
             Map<Solution, ForwardLookingResponse> solutionResponsePairs = new ConcurrentHashMap<>();
             Map<IterationState, Integer> runStates = new ConcurrentHashMap<>();
-            IntStream.range(1, 5000).forEach(ignored -> {
+            IntStream.range(1, 5000).parallel().forEach(ignored -> {
                 Api api = new Api();
                 Solution solution = new RandomizedSolutionCreator(api).createSolution();
                 Random random = new Random();
