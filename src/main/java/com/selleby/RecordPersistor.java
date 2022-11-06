@@ -6,8 +6,8 @@ import com.selleby.models.IterationState;
 import java.io.*;
 
 public class RecordPersistor {
-    private static final int FANCY_VILLE_MINIMUM_SCORE = 14500;
-    private static final int SUBURBIA_MINIMUM_SCORE = 1150;
+    private static final int FANCY_VILLE_MINIMUM_SCORE = 15000;
+    private static final int SUBURBIA_MINIMUM_SCORE = 1200;
     private static final String FILE_PATH = "persistentData.json";
     private final PrintWriter printWriter;
     private final Gson gson = new Gson();

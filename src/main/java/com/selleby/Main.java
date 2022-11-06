@@ -22,14 +22,16 @@ public class Main {
                 Solution solution = new RandomizedSolutionCreator(api).createSolution();
                 Random random = new Random();
 
-                int forwardLookingDays = random.nextInt(6, 9);
+                int[] forwardLookingValues = new int[] {3, 6, 7, 8, 13, 14, 15};
+                int forwardLookingDays = forwardLookingValues[random.nextInt(0, 7)];
                 ForwardLookingSolver solver = new ForwardLookingSolver(api, forwardLookingDays);
+                /*
                 if (runStates.containsKey(new IterationState(solution, null))) {
                     return;
                 }
                 else {
                     runStates.put(new IterationState(solution.copyBaseInformation(), null), 1);
-                }
+                }*/
                 System.out.printf("Running solver for: BagType: %d BagPrice: %d Refund: %d Choice: %s Forward: %d%n",
                         solution.bagType, solution.bagPrice, solution.refundAmount, solution.recycleRefundChoice, forwardLookingDays);
                 solver.setForwardLookingDays(forwardLookingDays);

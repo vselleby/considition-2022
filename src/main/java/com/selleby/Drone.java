@@ -1,22 +1,18 @@
 package com.selleby;
 
 
-import java.util.Comparator;
+import com.google.gson.annotations.Expose;
 
-/*class DroneComparator implements Comparator<Drone> {
-
-    // Overriding compare()method of Comparator
-    public int compare(Drone o1, Drone o2) {
-        return (o1.score - o2.score);
-    }
-}*/
+import java.util.List;
+import java.util.Random;
 
 public class Drone {
-    private DroneData data;
+    private final DroneData data;
 
     public boolean survivedRound;
     public boolean hasProducedThisRound;
-
+    @Expose(serialize = false)
+    private final transient Random random;
     public int score;
 
     public Drone(final int daysToLive) {
@@ -24,16 +20,16 @@ public class Drone {
         this.survivedRound = false;
         this.hasProducedThisRound = false; //only failures may check this.
         this.score = 0;
+        this.random = new Random();
     }
 
-    public void setDailyOrderFactor(int[] startingDailyOrders) {
-        for (int i =0; i < startingDailyOrders.length; i++ ) {
-            this.data.dailyOrderFactor[i] = startingDailyOrders[i];
+    public void setDailyOrderFactor(List<Integer> startingDailyOrders) {
+        for (int i =0; i < startingDailyOrders.size(); i++ ) {
+            this.data.dailyOrderFactor[i] = startingDailyOrders.get(i);
         }
     }
 
     public void produceOffspring(DroneData survivorDroneData, boolean shouldIncreaseMutation) {
-        this.data.mutationFactor = shouldIncreaseMutation ? Math.max( this.data.mutationFactor + (Math.random()),0) : 1;
         /*for (int i = 0; i < numberOfDays; i++) {
             this.data.dailyOrderFactor[i] = Math.max(survivorDroneData.dailyOrderFactor[i] + (Math.random() - 0.5)* 2,0) * this.data.mutationFactor;
             this.data.dailyRefundAmountFactor[i] = Math.max(survivorDroneData.dailyRefundAmountFactor[i] + (Math.random() - 0.5) * 2,0) * this.data.mutationFactor;
@@ -42,11 +38,9 @@ public class Drone {
         this.randomlyMutateData();
         this.randomlyDeleteData();
     }
-    public void cloneFromBetterDrone(DroneData survivorDroneData, boolean shouldIncreaseMutation) {
-        this.data.mutationFactor = shouldIncreaseMutation ? Math.max( this.data.mutationFactor + (Math.random()),0) : 1;
+    public void cloneFromBetterDrone(DroneData survivorDroneData) {
         for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
             this.data.dailyOrderFactor[i] = Math.max(survivorDroneData.dailyOrderFactor[i] + (Math.random() - 0.5)* 2,0) * this.data.mutationFactor;
-            this.data.dailyRefundAmountFactor[i] = Math.max(survivorDroneData.dailyRefundAmountFactor[i] + (Math.random() - 0.5) * 2,0) * this.data.mutationFactor;
         }
 
         //this.crossData(survivorDroneData,1);
@@ -54,10 +48,15 @@ public class Drone {
         //this.randomlyDeleteData();
     }
 
-    private void randomlyMutateData() {
+    public void randomlyMutateData() {
         for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
-            this.data.dailyOrderFactor[i] = Math.max(this.data.dailyOrderFactor[i] + (Math.random() - 0.5)* 2,0) * this.data.mutationFactor;
-            this.data.dailyRefundAmountFactor[i] = Math.max(this.data.dailyRefundAmountFactor[i] + (Math.random() - 0.5) * 2,0) * this.data.mutationFactor;
+            this.data.dailyOrderFactor[i] = data.dailyOrderFactor[i] * random.nextDouble(1.0 - data.mutationFactor, 1.0 + data.mutationFactor);
+        }
+    }
+
+    public void randomlyMutateDataByAddition() {
+        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
+            this.data.dailyOrderFactor[i] = data.dailyOrderFactor[i] + random.nextInt(-data.additiveMutationFactor, data.additiveMutationFactor);
         }
     }
 
@@ -72,18 +71,16 @@ public class Drone {
         }
     }
 
-
-
     public DroneData getDroneData() {
         return this.data;
     }
-
-
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Drone{" +
+                "data=" + data +
+                ", survivedRound=" + survivedRound +
+                ", hasProducedThisRound=" + hasProducedThisRound +
+                ", score=" + score +
+                '}';
+    }
 }

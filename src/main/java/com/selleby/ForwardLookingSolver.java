@@ -35,6 +35,9 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
         SubmitResponse bestSubmitResponse = null;
         dayLoop:
         for (int day = 0; day < mapDays; day++) {
+            if (day > 0) {
+                System.out.printf("New day %d orders are: %s%n", day, orders);
+            }
             int bestAverageDailyScore = Integer.MIN_VALUE;
             int bestOrderForDay = 0;
             int incrementStep = 0;
