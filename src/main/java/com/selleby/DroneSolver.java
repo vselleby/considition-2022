@@ -68,7 +68,7 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
                 System.out.printf("%d%n",i);
                 SubmitResponse submitResponse = api.submitGame(solution);
                 drones[i].score = submitResponse.score;
-                if (bestResponse == null || submitResponse.score >= bestResponse.score ) { //determine best drone out of current batch.
+                if (bestResponse == null || submitResponse.score > bestResponse.score ) { //determine best drone out of current batch.
                     bestDrone = drones[i];
                     bestResponse = submitResponse;
                     bestDrones[bestDronesIndex] = bestDrone;
@@ -79,10 +79,15 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
             System.out.println("Your score is: " + bestResponse.score);
             DroneData bestData = bestDrone.getDroneData();
 
-            Arrays.sort(drones); //TODO: MIGHT CAUSE ISSUES.
+
+            Arrays.sort(drones, Comparator.comparingDouble(drone -> drone.score)); //TODO: MIGHT CAUSE ISSUES.
 
             //reproduce using best drone.
-            for (int i = 0; i < (int)Math.floor(drones.length*0.5); i++) {
+            for (int i = 0; i < drones.length; i++) {
+                boolean shouldIncreaseMutation = oldBestResponse != null && oldBestResponse.score == bestResponse.score;
+                drones[i].cloneFromBetterDrone(bestData,shouldIncreaseMutation);
+            }
+            /*for (int i = 0; i < (int)Math.floor(drones.length*0.5); i++) {
                 //int dominantDroneIndex = ThreadLocalRandom.current().nextInt(0, bestDrones.length); //inclusive, exclusive. random number in range.
                 Drone oneOfTheBest = drones[(int)Math.ceil(drones.length*0.5) + i];
                 boolean shouldIncreaseMutation = oldBestResponse != null && oldBestResponse.score == bestResponse.score;
@@ -91,7 +96,7 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
                 } else if (drones[i] != oneOfTheBest) {
                     drones[i].cloneFromBetterDrone(bestData,shouldIncreaseMutation);
                 }
-            }
+            }*/
             oldBestResponse = bestResponse;
         }
         return new DroneSubmitResponse(bestResponse,bestDrone);

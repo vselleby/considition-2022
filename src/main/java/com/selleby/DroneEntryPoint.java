@@ -19,7 +19,7 @@ public class DroneEntryPoint {
             IntStream.range(1, 1000).parallel().forEach(ignored -> {
                 Api api = new Api();
 
-                Drone[] drones = new Drone[25];
+                Drone[] drones = new Drone[5];
                 for (int i = 0; i < drones.length; i++) {
                     drones[i] = new Drone(DAYS);
                 }
