@@ -3,13 +3,13 @@ package com.selleby;
 
 import java.util.Comparator;
 
-class DroneComparator implements Comparator<Drone> {
+/*class DroneComparator implements Comparator<Drone> {
 
     // Overriding compare()method of Comparator
     public int compare(Drone o1, Drone o2) {
         return (o1.score - o2.score);
     }
-}
+}*/
 
 public class Drone {
     private DroneData data;
@@ -43,9 +43,15 @@ public class Drone {
         this.randomlyDeleteData();
     }
     public void cloneFromBetterDrone(DroneData survivorDroneData, boolean shouldIncreaseMutation) {
-        this.crossData(survivorDroneData,1);
-        this.randomlyMutateData();
-        this.randomlyDeleteData();
+        this.data.mutationFactor = shouldIncreaseMutation ? Math.max( this.data.mutationFactor + (Math.random()),0) : 1;
+        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
+            this.data.dailyOrderFactor[i] = Math.max(survivorDroneData.dailyOrderFactor[i] + (Math.random() - 0.5)* 2,0) * this.data.mutationFactor;
+            this.data.dailyRefundAmountFactor[i] = Math.max(survivorDroneData.dailyRefundAmountFactor[i] + (Math.random() - 0.5) * 2,0) * this.data.mutationFactor;
+        }
+
+        //this.crossData(survivorDroneData,1);
+        //this.randomlyMutateData();
+        //this.randomlyDeleteData();
     }
 
     private void randomlyMutateData() {
