@@ -42,7 +42,6 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
             for (;;) {
                 orders.set(day, nextOrderForDay);
                 solution.setOrders(orders);
-                System.out.println("Submitting. Orders are: " + orders);
                 SubmitResponse submitResponse = api.submitGame(solution);
                 int companyBudget = (int) floor(submitResponse.dailys.get(day).companyBudget);
                 int averageDailyScore = calculateAverageDailyScore(day, submitResponse.dailys);
@@ -59,7 +58,6 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
                     nextOrderForDay = bestOrderForDay + incrementStep;
                 }
                 else {
-                    System.out.println("Moving to next day. Orders are: " + orders);
                     orders.set(day, bestOrderForDay);
                     continue dayLoop;
                 }
