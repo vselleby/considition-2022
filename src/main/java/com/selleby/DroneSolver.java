@@ -17,7 +17,7 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
     public DroneSolver(Api api, List<Drone> drones) {
         super(api);
         this.drones = drones;
-        initialOrders = new ArrayList<>(List.of(8, 3, 7, 0, 0, 0, 0, 8, 8, 15, 3, 0, 0, 0, 0, 0, 0, 4, 10, 2, 8, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0));
+        initialOrders = new ArrayList<>(List.of(297, 1, 16, 11, 0, 0, 225, 1, 64, 10, 0, 0, 0, 0, 0, 0, 159, 65, 19, 0, 0, 0, 1, 31, 0, 41, 2, 0, 0, 0, 0));
     }
 
     private Integer defaultOrdering(DroneData data, int day) {
@@ -39,7 +39,7 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
         solution.setBagType(BagType.TWO.getIndex());
         solution.setMapName(MAP_NAME);
         solution.setRecycleRefundChoice(true);
-        solution.setRefundAmount(2);
+        solution.setRefundAmount(4);
         solution.setBagPrice(1);
 
         solution.setOrders(initialOrders);

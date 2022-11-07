@@ -1,5 +1,6 @@
 package com.selleby;
 
+import com.selleby.models.BagType;
 import com.selleby.models.DailyStat;
 import com.selleby.models.Solution;
 import com.selleby.responses.ForwardLookingResponse;
@@ -13,6 +14,7 @@ import static com.selleby.GlobalVariables.DAYS;
 import static java.lang.Math.floor;
 
 public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
+    private static final int INCREMENTATION_MAX = 32;
     private int forwardLookingDays;
     private int mapDays = DAYS;
 
@@ -35,13 +37,23 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
         SubmitResponse bestSubmitResponse = null;
         dayLoop:
         for (int day = 0; day < mapDays; day++) {
-            if (day > 0) {
-                System.out.printf("New day %d orders are: %s%n", day, orders);
-            }
             int bestAverageDailyScore = Integer.MIN_VALUE;
             int bestOrderForDay = 0;
             int incrementStep = 0;
             int nextOrderForDay = 0;
+
+            if (day > 0) {
+                System.out.printf("New day %d orders are: %s%n", day, orders);
+            }
+            else {
+                BagType bagType = BagType.getBagTypeFromIndex(solution.bagType);
+                if (bagType.getPrice() * gameResponse.population > gameResponse.companyBudget) {
+                    nextOrderForDay = (int) (gameResponse.companyBudget / bagType.getPrice());
+                }
+                else {
+                    nextOrderForDay = gameResponse.population;
+                }
+            }
             for (;;) {
                 orders.set(day, nextOrderForDay);
                 solution.setOrders(orders);
@@ -53,7 +65,9 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
                     bestOrderForDay = nextOrderForDay;
                     bestSubmitResponse = new SubmitResponse(submitResponse);
                     orders.set(day, bestOrderForDay);
-                    incrementStep = incrementStep == 0 ? 1 : incrementStep * 2;
+                    if (incrementStep < INCREMENTATION_MAX) {
+                        incrementStep = incrementStep == 0 ? 1 : incrementStep * 2;
+                    }
                     nextOrderForDay += incrementStep;
                 }
                 else if (incrementStep > 1) {

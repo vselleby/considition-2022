@@ -46,4 +46,13 @@ public enum BagType {
     public int getProductionEmissions() {
         return productionEmissions;
     }
+
+    public static BagType getBagTypeFromIndex(int index) {
+        for (BagType bagType : BagType.values()) {
+            if (bagType.getIndex() == index) {
+                return bagType;
+            }
+        }
+        throw new IllegalArgumentException("No BagType defined with index: " + index);
+    }
 }
