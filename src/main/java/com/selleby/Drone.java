@@ -8,7 +8,6 @@ import java.util.Random;
 
 public class Drone {
     private final DroneData data;
-
     public boolean survivedRound;
     public boolean hasProducedThisRound;
     @Expose(serialize = false)
@@ -18,57 +17,37 @@ public class Drone {
     public Drone(final int daysToLive) {
         this.data = new DroneData(daysToLive);
         this.survivedRound = false;
-        this.hasProducedThisRound = false; //only failures may check this.
+        this.hasProducedThisRound = false;
         this.score = 0;
         this.random = new Random();
     }
 
     public void setDailyOrderFactor(List<Integer> startingDailyOrders) {
         for (int i =0; i < startingDailyOrders.size(); i++ ) {
-            this.data.dailyOrderFactor[i] = startingDailyOrders.get(i);
+            this.data.dailyOrderFactor.set(i, Double.valueOf(startingDailyOrders.get(i)));
         }
     }
 
-    public void produceOffspring(DroneData survivorDroneData, boolean shouldIncreaseMutation) {
-        /*for (int i = 0; i < numberOfDays; i++) {
-            this.data.dailyOrderFactor[i] = Math.max(survivorDroneData.dailyOrderFactor[i] + (Math.random() - 0.5)* 2,0) * this.data.mutationFactor;
-            this.data.dailyRefundAmountFactor[i] = Math.max(survivorDroneData.dailyRefundAmountFactor[i] + (Math.random() - 0.5) * 2,0) * this.data.mutationFactor;
-        }*/
-        this.crossData(survivorDroneData,0.5);
-        this.randomlyMutateData();
-        this.randomlyDeleteData();
-    }
+
     public void cloneFromBetterDrone(DroneData survivorDroneData) {
-        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
-            this.data.dailyOrderFactor[i] = Math.max(survivorDroneData.dailyOrderFactor[i] + (Math.random() - 0.5)* 2,0) * this.data.mutationFactor;
+        for (int i = 0; i < data.dailyOrderFactor.size(); i++) {
+            data.dailyOrderFactor.set(i, survivorDroneData.dailyOrderFactor.get(i));
         }
-
-        //this.crossData(survivorDroneData,1);
-        //this.randomlyMutateData();
-        //this.randomlyDeleteData();
     }
 
     public void randomlyMutateData() {
-        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
-            this.data.dailyOrderFactor[i] = data.dailyOrderFactor[i] * random.nextDouble(1.0 - data.mutationFactor, 1.0 + data.mutationFactor);
+        for (int i = 0; i < this.data.dailyOrderFactor.size(); i++) {
+            if (data.dailyOrderFactor.get(i) == 0) {
+                data.dailyOrderFactor.set(i, random.nextDouble(0, 1.0 + data.mutationFactor));
+            }
+            else {
+                this.data.dailyOrderFactor.set(i, data.dailyOrderFactor.get(i) * random.nextDouble(1.0 - data.mutationFactor, 1.0 + data.mutationFactor));
+            }
         }
     }
 
-    public void randomlyMutateDataByAddition() {
-        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
-            this.data.dailyOrderFactor[i] = data.dailyOrderFactor[i] + random.nextInt(-data.additiveMutationFactor, data.additiveMutationFactor);
-        }
-    }
-
-    private void crossData(DroneData droneToCross, double crossFactor) {
-        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
-            this.data.dailyOrderFactor[i] = MathHelper.lerpNumber(this.data.dailyOrderFactor[i], droneToCross.dailyOrderFactor[i], crossFactor);
-        }
-    }
-    private void randomlyDeleteData() {
-        for (int i = 0; i < this.data.dailyOrderFactor.length; i++) {
-            this.data.dailyOrderFactor[i] = Math.random() > 0.98 ? 0 : this.data.dailyOrderFactor[i];
-        }
+    public void randomlyDeleteData() {
+        this.data.dailyOrderFactor.replaceAll(originalValue -> random.nextDouble() > 0.99 ? 0 : originalValue);
     }
 
     public DroneData getDroneData() {

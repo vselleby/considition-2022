@@ -1,28 +1,23 @@
 package com.selleby;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DroneData {
-    public double[] dailyOrderFactor;
-    public double mutationFactor = 0.1;
-
-    public int additiveMutationFactor = 1;
-
-
-    //todo: the other 4 factors should be clones for refund amount as well, and refund amount should also be added. a total of 10 variables.
+    public List<Double> dailyOrderFactor;
+    public double mutationFactor = 0.01;
 
     public DroneData(final int daysToLive) {
-        dailyOrderFactor = new double[daysToLive];
-
+        dailyOrderFactor = new ArrayList<>();
         for (int i = 0; i < daysToLive; i++) {
-            this.dailyOrderFactor[i] = 1.0;
+            dailyOrderFactor.add(1.0);
         }
     }
 
     @Override
     public String toString() {
         return "DroneData{" +
-                "dailyOrderFactor=" + Arrays.toString(dailyOrderFactor) +
+                "dailyOrderFactor=" + dailyOrderFactor +
                 ", mutationFactor=" + mutationFactor +
                 '}';
     }

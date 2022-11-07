@@ -1,7 +1,7 @@
 package com.selleby.models;
 
 public class DailyStat {
-    public int c02;
+    public double c02;
     public int positiveCustomerScore;
     public int negativeCustomerScore;
     public double companyBudget;

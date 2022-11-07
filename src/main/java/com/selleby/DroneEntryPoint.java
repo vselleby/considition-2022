@@ -1,6 +1,5 @@
 package com.selleby;
 
-import com.selleby.models.BagType;
 import com.selleby.models.IterationState;
 import com.selleby.models.Solution;
 
@@ -26,7 +25,7 @@ public class DroneEntryPoint {
                 for (int i = 0; i < NUMBER_OF_DRONES; i++) {
                     drones.add(new Drone(DAYS));
                 }
-                DroneSolver solver = new DroneSolver(api, drones,BagType.TWO);
+                DroneSolver solver = new DroneSolver(api, drones);
                 Solution solution = new Solution();
                 SubmitResponse bestResponse = solver.solve(solution);
                 persistor.persist(new IterationState(solution,bestResponse));

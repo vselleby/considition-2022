@@ -5,27 +5,23 @@ import com.selleby.models.Solution;
 import com.selleby.responses.DroneSubmitResponse;
 import com.selleby.responses.SubmitResponse;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static com.selleby.GlobalVariables.DAYS;
 import static com.selleby.GlobalVariables.MAP_NAME;
 
 public class DroneSolver extends Solver<DroneSubmitResponse> {
     private final List<Drone> drones;
-    private final BagType bagType;
     private final List<Integer> initialOrders;
 
-    public DroneSolver(Api api, List<Drone> drones, BagType bagType) {
+    public DroneSolver(Api api, List<Drone> drones) {
         super(api);
         this.drones = drones;
-        this.bagType = bagType;
-        initialOrders = new ArrayList<>(List.of(46, 1, 7, 0, 3, 1, 0, 7, 7, 3, 7, 7, 7, 0, 3, 0, 7, 1, 3, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+        initialOrders = new ArrayList<>(List.of(8, 3, 7, 0, 0, 0, 0, 8, 8, 15, 3, 0, 0, 0, 0, 0, 0, 4, 10, 2, 8, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0));
     }
 
-    private Integer defaultOrdering(DroneData data, int day, BagType bagType) {
-        return (int) (1*Math.abs(data.dailyOrderFactor[day]));
+    private Integer defaultOrdering(DroneData data, int day) {
+        return (int) (Math.abs(data.dailyOrderFactor.get(day)));
     }
 
     private void resetDrones() {
@@ -40,33 +36,35 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
 
         Drone bestDrone = null;
 
-        solution.setBagType(this.bagType.getIndex() );
+        solution.setBagType(BagType.TWO.getIndex());
         solution.setMapName(MAP_NAME);
         solution.setRecycleRefundChoice(true);
-        solution.setRefundAmount(1);
+        solution.setRefundAmount(2);
         solution.setBagPrice(1);
 
         solution.setOrders(initialOrders);
         resetDrones();
 
         SubmitResponse initialResponse = api.submitGame(solution);
-        int numberGenerations = 10;
+        int numberGenerations = 100;
         for (int generationIndex = 0; generationIndex < numberGenerations; generationIndex++) {
             //run drones
             for (Drone drone : drones) {
                 //Do calculations for one drone.
                 drone.survivedRound = false;
                 drone.randomlyMutateData();
+                drone.randomlyDeleteData();
                 List<Integer> orders = new ArrayList<>();
                 for (int day = 0; day < DAYS; day++) {
-                    orders.add(defaultOrdering(drone.getDroneData(), day, bagType));
+                    orders.add(defaultOrdering(drone.getDroneData(), day));
                 }
                 solution.setOrders(orders);
+                System.out.println(orders);
 
-                System.out.printf("%s%n", orders);
                 SubmitResponse submitResponse = api.submitGame(solution);
+                System.out.println("Score: " + submitResponse.score);
                 drone.score = submitResponse.score;
-                if (submitResponse.score > initialResponse.score && (bestResponse == null || submitResponse.score > bestResponse.score)) { //determine best drone out of current batch.
+                if (submitResponse.score >= initialResponse.score && (bestResponse == null || submitResponse.score > bestResponse.score)) { //determine best drone out of current batch.
                     bestDrone = drone;
                     bestResponse = submitResponse;
                     bestDrone.survivedRound = true;
@@ -78,7 +76,6 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
 
 
             drones.sort(Comparator.comparingDouble(drone -> drone.score));
-            System.out.printf("Drone results: %s%n", drones);
 
             //reproduce using best drone.
             if (bestDrone != null && bestDrone.survivedRound) {
@@ -96,15 +93,13 @@ public class DroneSolver extends Solver<DroneSubmitResponse> {
 
     private void resetMutationFactor() {
         for (Drone drone : drones) {
-            drone.getDroneData().mutationFactor = 0.1;
-            drone.getDroneData().additiveMutationFactor = 1;
+            drone.getDroneData().mutationFactor = 0.01;
         }
     }
 
     private void increaseMutiationFactor() {
         for (Drone drone : drones) {
-            drone.getDroneData().mutationFactor += 0.1;
-            drone.getDroneData().additiveMutationFactor += 1;
+            drone.getDroneData().mutationFactor += 0.01;
 
         }
     }
