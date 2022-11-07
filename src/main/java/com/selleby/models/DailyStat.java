@@ -2,13 +2,13 @@ package com.selleby.models;
 
 public class DailyStat {
     public int c02;
-    public int customerScore;
+    public int positiveCustomerScore;
     public int negativeCustomerScore;
     public double companyBudget;
 
     public DailyStat(int co2, int positiveCustomerScore, int negativeCustomerScore, double budget) {
         this.c02 = co2;
-        this.customerScore = positiveCustomerScore;
+        this.positiveCustomerScore = positiveCustomerScore;
         this.negativeCustomerScore = negativeCustomerScore;
         this.companyBudget = budget;
     }
@@ -17,7 +17,7 @@ public class DailyStat {
     public String toString() {
         return "DailyStat{" +
                 "c02=" + c02 +
-                ", customerScore=" + customerScore +
+                ", positiveCustomerScore=" + positiveCustomerScore +
                 ", negativeCustomerScore=" + negativeCustomerScore +
                 ", companyBudget=" + companyBudget +
                 '}';
