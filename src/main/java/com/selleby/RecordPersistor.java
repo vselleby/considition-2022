@@ -6,11 +6,11 @@ import com.selleby.models.IterationState;
 import java.io.*;
 
 public class RecordPersistor {
-    private static final int FANCY_VILLE_MINIMUM_SCORE = 15000;
-    private static final int SUBURBIA_MINIMUM_SCORE = 1200;
     private static final String FILE_PATH = "persistentData.json";
     private final PrintWriter printWriter;
     private final Gson gson = new Gson();
+
+    private int highestScore = 0;
 
     public RecordPersistor() throws IOException {
         printWriter = new PrintWriter(new BufferedWriter(new FileWriter(FILE_PATH, true)), true);
@@ -20,15 +20,12 @@ public class RecordPersistor {
         if (scoreAbovePersistenceLevel(iterationState)) {
             String json = gson.toJson(iterationState);
             printWriter.println(json);
+            highestScore = iterationState.submitResponse().score;
+            System.out.println("New highscore saved: " + highestScore);
         }
     }
 
     private boolean scoreAbovePersistenceLevel(IterationState iterationState) {
-        if (iterationState.solution().mapName.equals("Fancyville")) {
-            return iterationState.submitResponse().score >= FANCY_VILLE_MINIMUM_SCORE;
-        }
-        else {
-            return iterationState.submitResponse().score >= SUBURBIA_MINIMUM_SCORE;
-        }
+        return iterationState.submitResponse().score > highestScore;
     }
 }

@@ -59,7 +59,7 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
                 solution.setOrders(orders);
                 SubmitResponse submitResponse = api.submitGame(solution);
                 int companyBudget = (int) floor(submitResponse.dailys.get(day).companyBudget);
-                int averageDailyScore = calculateAverageDailyScore(day, submitResponse.dailys);
+                int averageDailyScore = defaultCustomerScoreCalculation(day, submitResponse.dailys);
                 if (averageDailyScore > bestAverageDailyScore && companyBudget >= 0) {
                     bestAverageDailyScore = averageDailyScore;
                     bestOrderForDay = nextOrderForDay;
@@ -83,13 +83,67 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
         return new ForwardLookingResponse(bestSubmitResponse, forwardLookingDays);
     }
 
-    private int calculateAverageDailyScore(int startDay, List<DailyStat> dailyStats) {
+    private int defaultCustomerScoreCalculation(int startDay, List<DailyStat> dailyStats) {
         int customerScores = 0;
         int co2 = 0;
         int iterations = 0;
         for (int i = Math.max(0, startDay); i < (startDay + forwardLookingDays) && i < dailyStats.size(); i++) {
             customerScores += dailyStats.get(i).positiveCustomerScore;
             customerScores += dailyStats.get(i).negativeCustomerScore;
+            co2 += dailyStats.get(i).c02;
+            iterations++;
+        }
+        if (iterations == 0) {
+            return 0;
+        }
+        return (customerScores / iterations) - (co2 / iterations);
+    }
+
+    private int pythagorasCustomerScoreCalculation(int startDay, List<DailyStat> dailyStats) {
+        int customerScores = 0;
+        int co2 = 0;
+        int iterations = 0;
+        for (int i = Math.max(0, startDay); i < (startDay + forwardLookingDays) && i < dailyStats.size(); i++) {
+            customerScores += dailyStats.get(i).positiveCustomerScore;
+            customerScores += dailyStats.get(i).negativeCustomerScore;
+            co2 += dailyStats.get(i).c02;
+            iterations++;
+        }
+        if (iterations == 0) {
+            return 0;
+        }
+        if (customerScores > 0) {
+            return (int) Math.sqrt(Math.pow(((double)customerScores / iterations), 2) - Math.pow(((double)co2 / iterations), 2));
+        }
+        return (customerScores / iterations) - (co2 / iterations);
+    }
+
+    private int negativeFirstScoreCalculation(int startDay, List<DailyStat> dailyStats) {
+        int customerScores = 0;
+        int co2 = 0;
+        int iterations = 0;
+        for (int i = Math.max(0, startDay); i < (startDay + forwardLookingDays) && i < dailyStats.size(); i++) {
+            if (dailyStats.get(i).negativeCustomerScore == 0) {
+                customerScores += dailyStats.get(i).positiveCustomerScore;
+            }
+            else {
+                customerScores += dailyStats.get(i).negativeCustomerScore;
+            }
+            co2 += dailyStats.get(i).c02;
+            iterations++;
+        }
+        if (iterations == 0) {
+            return 0;
+        }
+        return (customerScores / iterations) - (co2 / iterations);
+    }
+
+    private int positiveOnlyScoreCalculation(int startDay, List<DailyStat> dailyStats) {
+        int customerScores = 0;
+        int co2 = 0;
+        int iterations = 0;
+        for (int i = Math.max(0, startDay); i < (startDay + forwardLookingDays) && i < dailyStats.size(); i++) {
+            customerScores += dailyStats.get(i).positiveCustomerScore;
             co2 += dailyStats.get(i).c02;
             iterations++;
         }
