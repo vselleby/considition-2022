@@ -59,7 +59,7 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
                 solution.setOrders(orders);
                 SubmitResponse submitResponse = api.submitGame(solution);
                 int companyBudget = (int) floor(submitResponse.dailys.get(day).companyBudget);
-                int averageDailyScore = futureDayOnlyScoreCalculation(day, submitResponse.dailys);
+                int averageDailyScore = defaultCustomerScoreCalculation(day, submitResponse.dailys);
                 if (averageDailyScore > bestAverageDailyScore && companyBudget >= 0) {
                     bestAverageDailyScore = averageDailyScore;
                     bestOrderForDay = nextOrderForDay;
