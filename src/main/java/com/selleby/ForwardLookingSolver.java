@@ -108,7 +108,7 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
         else {
             dayInFuture = dailyStats.size() - 1;
         }
-        return (int) (dailyStats.get(dayInFuture).positiveCustomerScore + dailyStats.get(dayInFuture).negativeCustomerScore - dailyStats.get(dayInFuture).c02);
+        return (int) ((dailyStats.get(dayInFuture).positiveCustomerScore + dailyStats.get(dayInFuture).negativeCustomerScore) - dailyStats.get(dayInFuture).c02);
     }
 
     private int pythagorasCustomerScoreCalculation(int startDay, List<DailyStat> dailyStats) {
