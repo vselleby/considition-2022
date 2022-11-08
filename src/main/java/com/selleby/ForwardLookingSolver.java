@@ -44,7 +44,6 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
 
             if (day > 0) {
                 System.out.printf("New day %d orders are: %s%n", day, orders);
-                System.out.println("Score: " + bestAverageDailyScore);
             }
             else {
                 BagType bagType = BagType.getBagTypeFromIndex(solution.bagType);
