@@ -44,6 +44,7 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
 
             if (day > 0) {
                 System.out.printf("New day %d orders are: %s%n", day, orders);
+                System.out.println("Score: " + bestAverageDailyScore);
             }
             else {
                 BagType bagType = BagType.getBagTypeFromIndex(solution.bagType);
@@ -59,7 +60,7 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
                 solution.setOrders(orders);
                 SubmitResponse submitResponse = api.submitGame(solution);
                 int companyBudget = (int) floor(submitResponse.dailys.get(day).companyBudget);
-                int averageDailyScore = defaultCustomerScoreCalculation(day, submitResponse.dailys);
+                int averageDailyScore = futureDayOnlyScoreCalculation(day, submitResponse.dailys);
                 if (averageDailyScore > bestAverageDailyScore && companyBudget >= 0) {
                     bestAverageDailyScore = averageDailyScore;
                     bestOrderForDay = nextOrderForDay;
@@ -97,6 +98,17 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
             return 0;
         }
         return (customerScores / iterations) - (co2 / iterations);
+    }
+
+    private int futureDayOnlyScoreCalculation(int startDay, List<DailyStat> dailyStats) {
+        int dayInFuture;
+        if ((startDay + forwardLookingDays) < dailyStats.size()) {
+            dayInFuture = startDay + forwardLookingDays;
+        }
+        else {
+            dayInFuture = dailyStats.size() - 1;
+        }
+        return (int) (dailyStats.get(dayInFuture).positiveCustomerScore + dailyStats.get(dayInFuture).negativeCustomerScore - dailyStats.get(dayInFuture).c02);
     }
 
     private int pythagorasCustomerScoreCalculation(int startDay, List<DailyStat> dailyStats) {
