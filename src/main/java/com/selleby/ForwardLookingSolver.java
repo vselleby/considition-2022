@@ -84,19 +84,18 @@ public class ForwardLookingSolver extends Solver<ForwardLookingResponse> {
     }
 
     private int calculateAverageDailyScore(int startDay, List<DailyStat> dailyStats) {
-        int negativeCustomerScores = 0;
-        int positiveCustomerScores = 0;
+        int customerScores = 0;
         int co2 = 0;
         int iterations = 0;
         for (int i = Math.max(0, startDay); i < (startDay + forwardLookingDays) && i < dailyStats.size(); i++) {
-            positiveCustomerScores += dailyStats.get(i).positiveCustomerScore;
-            negativeCustomerScores += dailyStats.get(i).negativeCustomerScore;
+            customerScores += dailyStats.get(i).positiveCustomerScore;
+            customerScores += dailyStats.get(i).negativeCustomerScore;
             co2 += dailyStats.get(i).c02;
             iterations++;
         }
         if (iterations == 0) {
             return 0;
         }
-        return (positiveCustomerScores / iterations) + (negativeCustomerScores / iterations) - (co2 / iterations);
+        return (customerScores / iterations) - (co2 / iterations);
     }
 }
