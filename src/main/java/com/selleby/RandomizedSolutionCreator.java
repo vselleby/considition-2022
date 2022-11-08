@@ -21,7 +21,7 @@ public class RandomizedSolutionCreator extends SolutionCreator {
         Solution solution = new Solution();
         solution.setMapName(MAP_NAME);
         solution.setBagType(bagType.getIndex());
-        solution.setBagPrice(random.nextInt((int) bagType.getPrice(), (int) bagType.getPrice() * 2));
+        solution.setBagPrice(random.nextInt((int) Math.ceil(bagType.getPrice()), (int) Math.ceil(bagType.getPrice()) * 2));
         solution.setRefundAmount(random.nextInt(0, (int) (bagType.getPrice() * 3)));
         solution.setRecycleRefundChoice(random.nextBoolean());
         return solution;
